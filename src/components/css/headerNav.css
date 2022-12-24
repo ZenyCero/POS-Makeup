@@ -1,0 +1,8 @@
+.imgNav{
+    width: 100px;
+}
+
+.navbar{
+    display: flex;
+    justify-content: end;
+}
