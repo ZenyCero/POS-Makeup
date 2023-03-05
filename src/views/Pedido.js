@@ -73,6 +73,7 @@ const Pedido = () => {
                 return response.ok ? response.json() : Promise.reject(response);
             })
             .then((dataJson) => {
+                
                 setA_Productos(dataJson)
             }).catch((error) => {
                 console.log("No se pudo obtener datos, mayor detalle: ", error)
@@ -315,9 +316,8 @@ const Pedido = () => {
             },
             detalle_precio: 0,
             detalle_cantidad: 0,
-          }
+        }
         
-        console.log(orden)
         const api = fetch("http://localhost:8081/api/orden", {
             method: 'POST',
             headers: {

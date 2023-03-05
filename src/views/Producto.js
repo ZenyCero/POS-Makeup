@@ -14,7 +14,7 @@ let modeloProducto = {
     producNombre: "",
     producPrecio: 0,
     producMarca: "",
-    producStock: 0
+    producStock: 0,
 }
 
 let modeloCategoria = {
@@ -94,11 +94,16 @@ const Producto = () => {
             sortable: true,
         },
         {
+            name: 'Precio',
+            selector: row => row.producPrecio,
+            sortable: true,
+        },
+        /*{
             name: 'Categoria',
             selector: row => row.fk_categoria,
             sortable: true,
             cell: row => (row.fk_categoria.cate_nombre)
-        },
+        },*/
         {
             name: '',
             cell: row => (
@@ -109,11 +114,11 @@ const Producto = () => {
                         <i className="fas fa-pen-alt"></i>
                     </Button>
                     
-                    {/* <Button color="danger" size="sm"
+                    { <Button color="danger" size="sm"
                         onClick={() => eliminarProducto(row.id_producto)}
                     >
                         <i className="fas fa-trash-alt"></i>
-                    </Button> */}
+                    </Button> }
                 </>
             ),
         },
@@ -153,6 +158,7 @@ const Producto = () => {
     const guardarCambios = async () => {
 
         //delete producto.fk_categoria;
+        console.log(categoria)
         producto.fk_categoria = categoria
         console.log(producto);
 
@@ -193,7 +199,6 @@ const Producto = () => {
     }
 
     const eliminarProducto = async (id) => {
-
         Swal.fire({
             title: 'Esta seguro?',
             text: "Desea eliminar el producto",
@@ -206,7 +211,7 @@ const Producto = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                const response = fetch("http://localhost:8081/api/producto/" + id, { method: "DELETE" })
+                const response = fetch("http://localhost:8081/api/producto/"+id, {method: 'Delete'})
                     .then(response => {
                         if (response.ok) {
 
@@ -257,7 +262,7 @@ const Producto = () => {
                         <Col sm={6}>
                             <FormGroup>
                                 <Label>Codigo</Label>
-                                <Input bsSize="sm" name="id_producto" onChange={handleChange} value={producto.id_producto} />
+                                <Input bsSize="sm" name="id_producto" disabled={true} onChange={handleChange} value={producto.id_producto} />
                             </FormGroup>
                         </Col>
                         <Col sm={6}>

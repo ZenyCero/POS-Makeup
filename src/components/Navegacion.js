@@ -63,7 +63,7 @@ const Navegacion= () => {
               
               <Accordion flush open={open} toggle={toggle}>
               { 
-                (dataUser.cargo == "Administrador") &&
+                (dataUser.cargo == "Administrador" || dataUser.cargo == "Recepcionista") &&
                 <AccordionItem>
                   <AccordionHeader targetId="1">Administracion</AccordionHeader>
                   <AccordionBody accordionId="1">
@@ -97,7 +97,7 @@ const Navegacion= () => {
                 }
                 <div class='spacer'/>
                 {
-                  (dataUser.cargo == "Administrador" || dataUser.cargo == "Vendedor") &&
+                  (dataUser.cargo == "Administrador" || dataUser.cargo == "Vendedor" || dataUser.cargo == "Recepcionista") &&
                 <AccordionItem>
                   <AccordionHeader targetId="3">Pedido</AccordionHeader>
                   <AccordionBody accordionId="3">

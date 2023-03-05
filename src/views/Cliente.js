@@ -38,6 +38,8 @@ const Cliente = () => {
         let value = e.target.value;
         let valido;
 
+        console.log(e.target.name)
+        console.log(value)
         if(value == null || value != ""){
             valido = false
         }else if(value != null || value != ""){
@@ -49,12 +51,43 @@ const Cliente = () => {
             [e.target.name]: valido
         }) 
 
+        if(e.target.name == "dni"){
+            const validarDni = async (dni) => {
+                let response = await fetch("http://localhost:8082/api/validacion/"+dni)
+                .then((response) => {
+                    return response.ok ? response.json() : Promise.reject(response);
+                }).then((dataJson) =>{
 
+                    console.log(dataJson)
+                    let cliente = {
+                        id_cliente: 0,
+                        fullName : dataJson.name,
+                        fechNaci : dataJson.birth.substr(0,10),
+                        email :"",
+                        telefono :"",
+                        sexo : dataJson.gender.substr(0,1),
+                        direccion :dataJson.origen,
+                        dni : dni
+                    }
+
+                    setValidacion({
+                        ...validacion,
+                        [e.target.name]: false
+                    })
+                    setUsuario(cliente)
+                })                
+            }
+            validarDni(value)     
+        }
+        
+        
         setUsuario({
             ...cliente,
             [e.target.name]: value
         })
     }
+
+    
 
     const obtenerUsuarios = async () => {
         let response = await fetch("http://localhost:8081/api/clientes");
@@ -271,7 +304,7 @@ const Cliente = () => {
                                 <Input bsSize="sm" invalid={validacion.sexo} type={"select"} name="sexo" onChange={handleChange} value={cliente.sexo} >
                                     <option value={0}>Seleccionar</option>
                                     <option value={'M'}>M</option>
-                                    <option value={'H'}>F</option>
+                                    <option value={''}>F</option>
                                 </Input>
                             </FormGroup>
                         </Col>
@@ -281,7 +314,7 @@ const Cliente = () => {
                             <FormGroup>
                                 <Label>Fecha de Nacimiento</Label>
                                 <Input id="exampleDatetime" name="fechNaci" placeholder="datetime placeholder"
-                                type="date" bsSize="sm" invalid={validacion.fechNaci} onChange={handleChange} value={cliente.fechNaci} />
+                                type="date" bsSize="sm" invalid={validacion.fechNaci} onChange={handleChange} value={cliente.fechNaci.substr(0,10)} />
                             </FormGroup>
                         </Col>
                         <Col sm={6}>
